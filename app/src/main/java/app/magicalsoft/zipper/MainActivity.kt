@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -47,38 +48,44 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Column {
+                        Spacer(modifier = Modifier.safeDrawingPadding())
                         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                             Text(text = "Zipper", fontSize = 40.sp, fontWeight = FontWeight.Bold)
                             MenuButton("Open File")
                         }
                         Spacer(Modifier.weight(1f))
-                        BottomAppBar(
-                            actions = {
-                                IconButton(onClick = { /* doSomething() */ }) {
-                                    Icon(Icons.Filled.Check, contentDescription = "Localized description")
-                                }
-                                IconButton(onClick = { /* doSomething() */ }) {
-                                    Icon(
-                                        Icons.Filled.Edit,
-                                        contentDescription = "Localized description",
-                                    )
-                                }
-                            },
-                            floatingActionButton = {
-                                FloatingActionButton(
-                                    onClick = { /* do something */ },
-                                    containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-                                ) {
-                                    Icon(Icons.Filled.Add, "Localized description")
-                                }
-                            }
-                        )
+                        BottomBar()
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+fun BottomBar() {
+    BottomAppBar(
+        actions = {
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(Icons.Filled.Check, contentDescription = "Localized description")
+            }
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(
+                    Icons.Filled.Edit,
+                    contentDescription = "Localized description",
+                )
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /* do something */ },
+                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+            ) {
+                Icon(Icons.Filled.Add, "Localized description")
+            }
+        }
+    )
 }
 
 @Composable
