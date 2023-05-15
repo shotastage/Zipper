@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import androidx.compose.ui.graphics.Color
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -44,6 +46,9 @@ fun ZipperTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+
+    val systemUiController = rememberSystemUiController()
+
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
@@ -56,10 +61,26 @@ fun ZipperTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
+            systemUiController.setStatusBarColor(
+                color = Color.Magenta,
+                darkIcons = false
+            )
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
+    }
+
+    // Set both Status Bar and Navigation Bar color as Light White
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = Color.White,
+            darkIcons = false
+        )
+        systemUiController.setNavigationBarColor(
+            color = Color.White,
+            darkIcons = false
+        )
     }
 
     MaterialTheme(
