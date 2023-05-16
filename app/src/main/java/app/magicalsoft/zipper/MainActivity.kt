@@ -1,7 +1,10 @@
 package app.magicalsoft.zipper
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -33,6 +36,8 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.core.view.WindowCompat
+import java.io.FileDescriptor
+import java.io.IOException
 
 
 class MainActivity : ComponentActivity() {
@@ -42,6 +47,28 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MainContent()
+        }
+    }
+
+    private fun openFile(resultData: Intent) {
+        var pfDescriptor: ParcelFileDescriptor? = null
+
+        try {
+            val uri: Uri? = resultData.data
+            // Uriを表示
+            pfDescriptor = uri?.let { contentResolver.openFileDescriptor(it, "r") }
+            if (pfDescriptor != null) {
+                val fileDescriptor: FileDescriptor = pfDescriptor.fileDescriptor
+                pfDescriptor.close()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            try {
+                pfDescriptor?.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }
@@ -59,6 +86,7 @@ fun MainContent() {
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                     Text(text = "Zipper", fontSize = 40.sp, fontWeight = FontWeight.Bold)
                     MenuButton("Open File")
+
                 }
                 Spacer(Modifier.weight(1f))
                 BottomBar()
@@ -95,7 +123,9 @@ fun BottomBar() {
 
 @Composable
 fun MenuButton(name: String, modifier: Modifier = Modifier) {
-    Button(onClick = { /*TODO*/ }) {
+    Button(onClick = {
+        println("HELLO")
+    }) {
         Text(text = name)
     }
 }
@@ -113,7 +143,6 @@ fun BottomBarPreview() {
         BottomBar()
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
