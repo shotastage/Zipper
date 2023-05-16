@@ -41,22 +41,27 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            ZipperTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Column {
-                        Spacer(modifier = Modifier.safeDrawingPadding())
-                        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                            Text(text = "Zipper", fontSize = 40.sp, fontWeight = FontWeight.Bold)
-                            MenuButton("Open File")
-                        }
-                        Spacer(Modifier.weight(1f))
-                        BottomBar()
-                    }
+            MainContent()
+        }
+    }
+}
+
+@Composable
+fun MainContent() {
+    ZipperTheme {
+        // A surface container using the 'background' color from the theme
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Column {
+                Spacer(modifier = Modifier.safeDrawingPadding())
+                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    Text(text = "Zipper", fontSize = 40.sp, fontWeight = FontWeight.Bold)
+                    MenuButton("Open File")
                 }
+                Spacer(Modifier.weight(1f))
+                BottomBar()
             }
         }
     }
@@ -94,6 +99,21 @@ fun MenuButton(name: String, modifier: Modifier = Modifier) {
         Text(text = name)
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun MainContentPreview() {
+    MainContent()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BottomBarPreview() {
+    ZipperTheme {
+        BottomBar()
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable
