@@ -6,3 +6,5 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+# Used source: https://github.com/rust-lang/flate2-rs
+flate2 = "1.0"
