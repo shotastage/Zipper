@@ -1,38 +1,33 @@
-use std::io::prelude::*;
-use flate2::Compression;
-use flate2::write::ZlibEncoder;
-use std::io::prelude::*;
-use flate2::read::GzDecoder;
+use std::fs::File;
+use std::io::{Read, Write};
+use zip::{CompressionMethod, write::FileOptions, ZipWriter};
+use zip::read::ZipArchive;
 
-use jni::objects::JObject;
-use jni::sys::jstring;
-use jni::JNIEnv;
-
-
-#[no_mangle]
-pub unsafe extern "C" fn native_zlib_compress() {
-    //
+// Function to zip a file
+fn zip_file(input: &str, output: &str) -> zip::result::ZipResult<()> {
+    let path = std::path::Path::new(input);
+    let file = File::create(output)?;
+    let mut zip = ZipWriter::new(file);
+    let options = FileOptions::default()
+        .compression_method(CompressionMethod::Stored)
+        .unix_permissions(0o755);
+    zip.start_file(path.file_name().unwrap().to_str().unwrap(), options)?;
+    let mut f = File::open(&path)?;
+    let mut buffer = Vec::new();
+    f.read_to_end(&mut buffer)?;
+    zip.write_all(&*buffer)?;
+    zip.finish()?;
+    Ok(())
 }
 
-pub fn compress_zip_b() {
-    let mut e = ZlibEncoder::new(Vec::new(), Compression::default());
-    e.write_all(b"foo");
-    let compressed_bytes = e.finish();
-}
-
-pub fn decompress_b() {
-    let mut d = GzDecoder::new("...".as_bytes());
-    let mut s = String::new();
-    d.read_to_string(&mut s).unwrap();
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = compress(2, 2);
-        assert_eq!(result, 4);
+// Function to unzip a file
+fn unzip_file(input: &str, output: &str) -> zip::result::ZipResult<()> {
+    let mut archive = ZipArchive::new(File::open(input)?)?;
+    for i in 0..archive.len() {
+        let mut file = archive.by_index(i)?;
+        let outpath = file.sanitized_name();
+        let mut outfile = File::create(&outpath)?;
+        std::io::copy(&mut file, &mut outfile)?;
     }
+    Ok(())
 }

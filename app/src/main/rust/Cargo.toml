@@ -1,3 +1,6 @@
+[lib]
+crate-type = ["cdylib"]
+
 [package]
 name = "zipper"
 version = "0.1.0"
@@ -7,4 +10,5 @@ edition = "2021"
 
 [dependencies]
 # Used source: https://github.com/rust-lang/flate2-rs
+zip = "0.5"
 flate2 = "1.0"
