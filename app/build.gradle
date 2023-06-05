@@ -91,3 +91,21 @@ dependencies {
     // system bars customization
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
 }
+
+/*
+rustAndroidModule {
+    module ':app'
+    targetDirectory 'path/to/workspace/root/target'  // Path is either absolute, or relative to the gradle project's `projectDir`&#8203;`oaicite:{"index":0,"metadata":{"title":"github.com","url":"https://github.com/mozilla/rust-android-gradle","text":"cargo {\n        // Note: path is either absolute, or relative to the gradle project's `projectDir`.\n        targetDirectory = 'path/to/workspace/root/target","pub_date":null}}`&#8203;.
+    targetIncludes = ['libnotlibname.so']  // Replace 'libnotlibname.so' with your library's name.
+    apiLevel = 21  // The minimum API level your application supports.
+    targets = ["arm", "x86_64"]  // The CPU architectures your application supports&#8203;`oaicite:{"index":1,"metadata":{"title":"github.com","url":"https://github.com/mozilla/rust-android-gradle","text":"cargo {\n        targets = [\"arm\", \"x86_64\"]\n        apiLevels = [\n            \"arm\": 16,\n            \"x86_64\": 21","pub_date":null}}`&#8203;.
+    apiLevels = [ "arm": 16, "x86_64": 21 ]  // The minimum API level for each CPU architecture&#8203;`oaicite:{"index":2,"metadata":{"title":"github.com","url":"https://github.com/mozilla/rust-android-gradle","text":"cargo {\n        targets = [\"arm\", \"x86_64\"]\n        apiLevels = [\n            \"arm\": 16,\n            \"x86_64\": 21","pub_date":null}}`&#8203;.
+    extraCargoBuildArguments = ['a', 'list', 'of', 'strings']  // Any extra arguments to pass to `cargo build`.
+    exec { spec, toolchain ->
+        if (toolchain.target != "x86_64-apple-darwin") {
+            // Don't statically link on macOS desktop builds, for some hypothetical reason.
+            spec.environment("EXAMPLELIB_STATIC", "1")  // Set any necessary environment variables here.
+        }
+    }
+}
+*/
